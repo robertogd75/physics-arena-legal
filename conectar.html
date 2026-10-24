@@ -1,0 +1,21 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Physics Arena Publisher · Conectar TikTok</title><link rel="stylesheet" href="estilo.css"></head>
+<body><main>
+<h1>Physics Arena Publisher</h1>
+<p>Connect your TikTok account so the tool can send your Physics Arena videos to your TikTok <b>inbox as drafts</b>. You review, edit the caption and publish each video yourself in the TikTok app.</p>
+<p>Conecta tu cuenta de TikTok para que la herramienta envíe los vídeos de Physics Arena a tu <b>buzón de TikTok como borradores</b>. Tú los revisas, editas el texto y los publicas desde la app.</p>
+<p>Permissions / Permisos: <code>user.info.basic</code> (account name) · <code>video.upload</code> (send drafts to your inbox).</p>
+<p><button id="b" style="font-size:1.1rem;padding:.7rem 1.4rem;border-radius:.5rem;border:0;background:#111;color:#fff;cursor:pointer" disabled>Continue with TikTok / Continuar con TikTok</button></p>
+<p id="e" style="color:#a00"></p>
+<p><a href="terminos.html">Términos / Terms</a> · <a href="privacidad.html">Privacidad / Privacy</a></p>
+<script>
+// El servidor del creador genera el enlace con su clave pública de cliente, PKCE y state, y lo pasa aquí en el «#».
+// Nada de esto se envía a este sitio: el fragmento «#» no sale del navegador.
+const p = new URLSearchParams(location.hash.slice(1)), b = document.getElementById('b');
+if (p.get('ck') && p.get('ch') && p.get('st')) {
+  const u = new URL('https://www.tiktok.com/v2/auth/authorize/');
+  u.search = new URLSearchParams({client_key: p.get('ck'), redirect_uri: new URL('callback.html', location.href).href, response_type: 'code',
+    scope: p.get('sc') || 'user.info.basic,video.upload', state: p.get('st'), code_challenge: p.get('ch'), code_challenge_method: 'S256'});
+  b.disabled = false; b.onclick = () => { location.href = u.toString(); };
+} else document.getElementById('e').textContent = 'Abre esta página con el enlace que da el servidor (publicador autorizar tiktok).';
+</script>
+</main></body></html>
